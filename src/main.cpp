@@ -629,7 +629,7 @@ extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C g_TFT;
     Debug.setSerialEnabled(true);
 #endif
 
-    // Init the zlib comprfession
+    // Init the zlib compression
 
     debugI("Initializing compression...");
     uzlib_init();

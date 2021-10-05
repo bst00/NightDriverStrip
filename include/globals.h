@@ -81,7 +81,7 @@
 #define FASTLED_INTERNAL        1   // Silence FastLED build banners
 #define NTP_DELAY_COUNT         20  // delay count for ntp update
 #define NTP_PACKET_LENGTH       48  // ntp packet length
-#define TIME_ZONE             (-8)  // My offset from London (UTC-8)
+#define TIME_ZONE             (0)  // My offset from London (UTC-8)
 
 // C Helpers and Macros
 
@@ -132,7 +132,7 @@
 // #define SOCKET_CORE             1
 // #define REMOTE_CORE             1
 
-#define DRAWING_CORE            1
+#define DRAWING_CORE            0
 #define INCOMING_CORE           1
 #define NET_CORE                1
 #define AUDIO_CORE              0
@@ -217,7 +217,8 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define NUM_RINGS               5
     #define RING_SIZE_0             24
 
-    #define POWER_LIMIT_MW       5000   // 1 amp supply at 5 volts assumed
+    //#define POWER_LIMIT_MW       5000   // 1 amp supply at 5 volts assumed
+    #define POWER_LIMIT_MW       10000   // 2 amp supply at 5 volts assumed
 
     // Once you have a working project, selectively enable various additional features by setting
     // them to 1 in the list below.  This DEMO config assumes no audio (mic), or screen, etc.
@@ -613,7 +614,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #endif
 
 #ifndef BUILTIN_LED_PIN
-#define BUILTIN_LED_PIN 25          // Pin for the built in LED on the Heltec board
+#define BUILTIN_LED_PIN 2         // Pin 25 for the built in LED on the Heltec board
 #endif
 
 #define STACK_SIZE (ESP_TASK_MAIN_STACK) // Stack size for each new thread
@@ -633,11 +634,11 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #endif
 
 #ifndef MAX_BUFFERS
-#define MAX_BUFFERS (99)            // SHould be enough for two seconds at 30fps
+#define MAX_BUFFERS (99)            // Should be enough for two seconds at 30fps
 #endif
 
 #ifndef ENABLE_WEBSERVER
-#define ENABLE_WEBSERVER        0   // Chip provides a web server with controls to adjust effects
+#define ENABLE_WEBSERVER        1   // Chip provides a web server with controls to adjust effects
 #endif
 
 #ifndef ENABLE_OTA
@@ -698,7 +699,8 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #endif
 
 #ifndef DEFAULT_EFFECT_INTERVAL
-#define DEFAULT_EFFECT_INTERVAL 1000*30
+//#define DEFAULT_EFFECT_INTERVAL 1000*30
+#define DEFAULT_EFFECT_INTERVAL 1000*10
 #endif
 
 #ifndef LED_FAN_OFFSET_BU

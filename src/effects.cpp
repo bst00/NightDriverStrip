@@ -267,7 +267,57 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
   #if DEMO
 
     // Animate a simple rainbow palette by using the palette effect on the built-in rainbow palette
-    new PaletteEffect(rainbowPalette, 256/16, .2, 0)
+  
+    new StatusEffect(CRGB::Red),
+    new StatusEffect(CRGB::Green),
+    new StatusEffect(CRGB::Blue),
+
+    new PaletteEffect(USAColors_p),
+    new PaletteEffect(RGBColors_p),
+    new PaletteEffect(blueSweep),
+    new PaletteEffect(BlueStripes),
+
+    new PaletteEffect(RainbowStripeColors_p, 16.0, .25, 0, 5, 1), // Rainbow palette
+    new PaletteEffect(LavaColors_p),
+
+    new PaletteEffect(RedColors_p),
+    new PaletteEffect(BlueColors_p),
+    new PaletteEffect(GreenColors_p),
+    new PaletteEffect(MagentaColors_p),
+
+    new PaletteEffect(spectrumBasicColors),
+    new PaletteEffect(PurpleColors_p),
+
+    new RainbowFillEffect(24, 0),
+      
+    new RainbowFillEffect(32, 1),             // Rainbow palette
+    new SimpleRainbowTestEffect(8, 1),  // Rainbow palette simple test of walking pixels
+                                                                       
+    new DoublePaletteEffect(),
+
+    new SimpleRainbowTestEffect(8, 4), 
+    new ColorCycleEffect(BottomUp),      
+    new TwinkleEffect(NUM_LEDS/4, 10),
+    new PaletteEffect(rainbowPalette, 256/16, .2, 0),
+    new ClassicFireEffect(),
+    new PaletteEffect(RainbowStripeColors_p, 8.0, .125, 0, 5, 1), // Rainbow palette
+    new BouncingBallEffect()
+
+    // Tried ... did not work
+    //new StarryNightEffect<BubblyStar>("Neon Bars", RainbowColors_p, 0.5, 64, NOBLEND, 0),                                   // Neon Bars
+    //new MeteorEffect(),                                                                                                     // Our overlapping color meteors
+    //new StarryNightEffect<BubblyStar>("Big Blooming Rainbow Stars", RainbowColors_p, 2, 12, LINEARBLEND, 1.0),              // Blooming Rainbow Stars
+    //new StarryNightEffect<LongLifeSparkleStar>("Blue Sparkle Stars", BlueColors_p, 10.0, 1, LINEARBLEND, 2.0, 0.0, 0.0),        // Blue Sparkle
+    //new PaletteFlameEffect("Smooth Red Fire"),
+    //new StarryNightEffect<Star>(),
+    //new StarryNightEffect<BubblyStar>("Little Blooming Rainbow Stars", BlueColors_p, prob, 4, LINEARBLEND, 2.0, 0.0, mult), // Blooming Little Rainbow Stars
+    //new StarryNightEffect<MusicStar>("RGB Music Blend Stars", RGBColors_p, 0.8, 1, NOBLEND, 15.0, 0.1, 10.0),      // RGB Music Blur - Can You Hear Me Knockin'
+    //new StarryNightEffect<MusicStar>("Rainbow Music Stars", RainbowColors_p, 2.0, 2, LINEARBLEND, 5.0, 0.0, 10.0), // Rainbow Music Star
+    //new StarryNightEffect<MusicStar>("RGB Music Bubbles", RGBColors_p, 0.5, 1, NOBLEND, 15.0, 0.0, 75.0),   // RGB Music Bubbles
+    //new StarryNightEffect<MusicPulseStar>("RGB Pulse", RainbowColors_p, 0.02, 20, NOBLEND, 5.0, 0.0, 75.0), // RGB Music Bubbles
+    //new PaletteFlameEffect("Smooth Purple Fire"),
+    //new VUFlameEffect("Multicolor Sound Flame", VUFlameEffect::MULTICOLOR),
+
 
   #elif TREESET
 

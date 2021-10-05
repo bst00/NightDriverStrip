@@ -82,28 +82,65 @@
         <div id="tabs" style="width:550px;">
             <ul>
                 <li><a href="#tabs-1">NightDriverStrip</a></li>
-                <li><a href="#tabs-2">Help</a></li>
+                <li><a href="#tabs-2">Stuff</a></li>
+                <li><a href="#tabs-3">More_Stuff</a></li>
+                <li><a href="#tabs-4">Help</a></li>
             </ul>
             <div id="tabs-1" style="overflow: hidden;">
-                <!--
+                <!-- -->
                 <div style="clear: both;">
                     <button id="btnPrev" class="ui-button ui-width ui-corner-all">Prev</button>
                     <button id="btnNext" class="ui-button ui-width ui-corner-all">Next</button>
                 </div>
-                -->
+                <!-- -->
                 <ol id="effectList" class="effectList">
                 </ol>
                 <div id="Adjustments">
                 </div>
-            <div id="tabs-2" style="text-align:left;">
+            <div id="tabs-2" class="tab">
+                    <p>Test-Stuff</p>
+                </div>
+            <div id="tabs-3" class="tab">
+                    <p>Test-More Stuff</p>
+                </div>
+            <div id="tabs-4" style="text-align:left;">
+                <p>
                 If you can see this page, you're reading it live on the NightDriverStrip.  Not on a page written -about- the NightDriverStrip
                 hosted at Rackspace, but on the ESP32 chip, where the WebResponses are composed and returned.
+                </p>
+                </div>
             </div>
         </div>
     </center>
 
     <script src="jquery/jquery.min.js"></script>
     <script src="jquery/jquery-ui.min.js"></script>
+
+    <script>
+        //tabs 
+        /*
+        function hideTabs()
+        {
+            $(".tab").each(function(){
+                $this.hide();
+            })
+            //$(tab).show();
+        }
+        function showTab(tab)
+        {
+            hideTabs();
+            $(tab).show();
+        }
+        /*
+        $(document).ready(function(){
+            showTab('#tab-1');
+        })*/
+        //showTab('#tab-1')
+        
+    </script>
+
+
+
     <script>
 
         // OnSliderMoved
