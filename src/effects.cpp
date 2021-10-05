@@ -268,6 +268,8 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
 
     // Animate a simple rainbow palette by using the palette effect on the built-in rainbow palette
   
+    new PaletteEffect(rainbowPalette, 256/16, .2, 0),
+
     new StatusEffect(CRGB::Red),
     new StatusEffect(CRGB::Green),
     new StatusEffect(CRGB::Blue),
@@ -277,30 +279,33 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
     new PaletteEffect(blueSweep),
     new PaletteEffect(BlueStripes),
 
-    new PaletteEffect(RainbowStripeColors_p, 16.0, .25, 0, 5, 1), // Rainbow palette
+    
+    new PaletteEffect(CloudColors_p),
     new PaletteEffect(LavaColors_p),
+    new PaletteEffect(OceanColors_p),
+    new PaletteEffect(ForestColors_p),
+    new PaletteEffect(PartyColors_p),
+    new PaletteEffect(HeatColors_p),
 
     new PaletteEffect(RedColors_p),
     new PaletteEffect(BlueColors_p),
     new PaletteEffect(GreenColors_p),
     new PaletteEffect(MagentaColors_p),
-
-    new PaletteEffect(spectrumBasicColors),
     new PaletteEffect(PurpleColors_p),
-
-    new RainbowFillEffect(24, 0),
-      
-    new RainbowFillEffect(32, 1),             // Rainbow palette
-    new SimpleRainbowTestEffect(8, 1),  // Rainbow palette simple test of walking pixels
-                                                                       
-    new DoublePaletteEffect(),
-
-    new SimpleRainbowTestEffect(8, 4), 
-    new ColorCycleEffect(BottomUp),      
-    new TwinkleEffect(NUM_LEDS/4, 10),
-    new PaletteEffect(rainbowPalette, 256/16, .2, 0),
-    new ClassicFireEffect(),
+    new PaletteEffect(spectrumBasicColors),
     new PaletteEffect(RainbowStripeColors_p, 8.0, .125, 0, 5, 1), // Rainbow palette
+    new PaletteEffect(RainbowStripeColors_p, 16.0, .25, 0, 5, 1), // Rainbow palette
+    
+    new RainbowFillEffect(24, 0),
+    new RainbowFillEffect(32, 1),             // Rainbow palette
+
+    new SimpleRainbowTestEffect(8, 1),  // Rainbow palette simple test of walking pixels
+    new SimpleRainbowTestEffect(8, 4),
+
+    new DoublePaletteEffect(),
+    new ColorCycleEffect(BottomUp),
+    new TwinkleEffect(NUM_LEDS/4, 10),
+    new ClassicFireEffect(),
     new BouncingBallEffect()
 
 
