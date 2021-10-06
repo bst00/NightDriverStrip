@@ -304,11 +304,11 @@ void IRAM_ATTR NetworkHandlingLoopEntry(void *)
         #if ENABLE_WIFI
             EVERY_N_SECONDS(60)
             {
-                //if (WiFi.isConnected() == false && ConnectToWiFi(10) == false)
+                //if (WiFi.isConnected() == false && ConnectToWiFi(10) == false)  <<< ConnectToWiFi no longer used
                 if (WiFi.isConnected() == false)
                 {
                     debugE("Wifi not connected  ... call SmartConfig");
-                    //initSmartConfig();
+                    //initSmartConfig();     << maybe ???
                     #if WAIT_FOR_WIFI
                         debugE("Rebooting in 5 seconds due to no Wifi available.");
                         delay(5000);

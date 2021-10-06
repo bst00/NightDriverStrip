@@ -271,7 +271,7 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
     
     new PaletteEffect(rainbowPalette, 256/16, .2, 0),
 
-    //new StatusEffect(CRGB::Red),
+    new StatusEffect(CRGB::Red),
     //new StatusEffect(CRGB::Green),
     //new StatusEffect(CRGB::Blue),
 
@@ -279,7 +279,6 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
     new PaletteEffect(RGBColors_p),
     new PaletteEffect(blueSweep),
     //new PaletteEffect(BlueStripes),
-
     
     new PaletteEffect(CloudColors_p),
     new PaletteEffect(LavaColors_p),
@@ -295,13 +294,10 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
     new PaletteEffect(PurpleColors_p),
     new PaletteEffect(spectrumBasicColors),
     new PaletteEffect(RainbowStripeColors_p, 8.0, .125, 0, 5, 1), // Rainbow palette
-    //new PaletteEffect(RainbowStripeColors_p, 16.0, .25, 0, 5, 1), // Rainbow palette
-    
-    //new RainbowFillEffect(24, 0),
+
     new RainbowFillEffect(32, 1),             // Rainbow palette
 
     new SimpleRainbowTestEffect(8, 1),  // Rainbow palette simple test of walking pixels
-    //new SimpleRainbowTestEffect(8, 4),
 
     new DoublePaletteEffect(),
     new ColorCycleEffect(BottomUp),
