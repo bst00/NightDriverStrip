@@ -93,8 +93,8 @@ class NTPTimeClient
 
 		// Send the ntp packet.
 
-		IPAddress ipNtpServer(192, 168, 1, 2); 								// My Synology NAS
-		//IPAddress ipNtpServer(216, 239, 35, 12); 							// 216.239.35.12 Google Time
+		//IPAddress ipNtpServer(192, 168, 1, 2); 							// My Synology NAS
+		IPAddress ipNtpServer(216, 239, 35, 12); 							// 216.239.35.12 Google Time
 		//IPAddress ipNtpServer(17, 253, 16, 253);							// Apple time
 
 		pUDP->beginPacket(ipNtpServer, 123);

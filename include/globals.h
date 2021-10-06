@@ -699,7 +699,6 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #endif
 
 #ifndef DEFAULT_EFFECT_INTERVAL
-//#define DEFAULT_EFFECT_INTERVAL 1000*30
 #define DEFAULT_EFFECT_INTERVAL 1000*20
 #endif
 

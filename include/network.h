@@ -43,8 +43,7 @@ extern RemoteControl g_RemoteControl;
 #endif
 
 #define cszSSID      "********"
-//#define cszPassword  "********"
+#define cszPassword  "********"
 #define cszHostname  "NightDriverStrip"
 
-//bool ConnectToWiFi(uint cRetries);
 void SetupOTA(const char *pszHostname);

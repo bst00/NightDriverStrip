@@ -172,14 +172,14 @@
 #include "ledbuffer.h"
 #include "Bounce2.h"                            // For Bounce button class
 #if ENABLE_WEBSERVER
-    #include "spiffswebserver.h"                // handle web server requests
+#include "spiffswebserver.h"                    // handle web server requests
 #endif
 
 #include "colordata.h"                          // color palettes
 #include "drawing.h"                            // drawing code
 
 #if ENABLE_REMOTE
-    #include "remotecontrol.h" // Allows us to use a IR remote with it
+#include "remotecontrol.h"                      // Allows us to use a IR remote with it
 #endif
 
 void IRAM_ATTR ScreenUpdateLoopEntry(void *);          
@@ -307,7 +307,6 @@ void IRAM_ATTR NetworkHandlingLoopEntry(void *)
                 //if (WiFi.isConnected() == false && ConnectToWiFi(10) == false)
                 if (WiFi.isConnected() == false)
                 {
-                    //debugE("Cannot Connect to Wifi!");
                     debugE("Wifi not connected  ... call SmartConfig");
                     //initSmartConfig();
                     #if WAIT_FOR_WIFI
@@ -433,8 +432,7 @@ void initSmartConfig()
 
   //Init WiFi as Station, start SmartConfig
   WiFi.mode(WIFI_AP_STA);
-    //Serial.printf( "Entering SmartConfig\n" );
-    debugE( "Entering SmartConfig\n" );
+    Serial.printf( "Entering SmartConfig\n" );
 
   WiFi.beginSmartConfig();
 
@@ -445,7 +443,6 @@ void initSmartConfig()
     debugE("Enter your network password, select Multicast and hit 'Confirm'.");
 
   while (!WiFi.smartConfigDone()) {
-    //delay(500);
     Serial.print("+");
          if( loopCounter >= 80 )  // keep from scrolling sideways forever
      {
@@ -473,7 +470,7 @@ void initSmartConfig()
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 
-     // #if INCOMING_WIFI_ENABLED
+    // #if INCOMING_WIFI_ENABLED
     // Start listening for incoming data
     debugI("Starting/restarting Socket Server...");
     g_SocketServer.release();
