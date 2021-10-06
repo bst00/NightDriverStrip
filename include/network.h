@@ -42,9 +42,9 @@ void processRemoteDebugCmd();
 extern RemoteControl g_RemoteControl;
 #endif
 
-#define cszSSID      "Stargate"
-#define cszPassword  "bigBang!"
+#define cszSSID      "********"
+//#define cszPassword  "********"
 #define cszHostname  "NightDriverStrip"
 
-bool ConnectToWiFi(uint cRetries);
+//bool ConnectToWiFi(uint cRetries);
 void SetupOTA(const char *pszHostname);

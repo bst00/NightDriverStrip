@@ -36,6 +36,10 @@
 #include <mutex>
 #include <ArduinoOTA.h>             // Over-the-air helper object so we can be flashed via WiFi
 
+#if USE_WIFI_SMARTCONFIG
+#include <WiFi.h>
+#endif
+
 #if USE_WIFI_MANAGER
 #include <ESP_WiFiManager.h>
 DRAM_ATTR ESP_WiFiManager g_WifiManager("NightDriverWiFi");
@@ -140,8 +144,56 @@ void IRAM_ATTR RemoteLoopEntry(void *)
 //
 // BUGBUG I'm guessing this is exposed in all builds so anyone can call it and it just returns false if wifi
 // isn't being used, but do we need that?  If no one really needs to call it put the whole thing in the ifdef
+/*
+void initSmartConfig()
 
-bool ConnectToWiFi(uint cRetries)
+{
+    int loopCounter = 0;
+
+  //Init WiFi as Station, start SmartConfig
+  WiFi.mode(WIFI_AP_STA);
+    Serial.printf( "Entering SmartConfig\n" );
+
+  WiFi.beginSmartConfig();
+
+  //Wait for SmartConfig packet from mobile
+    Serial.println("Waiting for SmartConfig.");
+
+  while (!WiFi.smartConfigDone()) {
+    //delay(500);
+    Serial.print(".");
+         if( loopCounter >= 80 )  // keep from scrolling sideways forever
+     {
+         loopCounter = 0;
+         Serial.printf( "\n" );     // NL
+     }
+     delay(600);
+    ++loopCounter;
+  }
+  loopCounter = 0;
+
+  Serial.println("");
+  Serial.println("SmartConfig received. \n Waiting for WiFi\n\n");
+
+  //Wait for WiFi to connect to AP
+  //Serial.println("Waiting for WiFi");
+    delay(500);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("WiFi Connected.");
+
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
+
+}
+
+
+//bool ConnectToWiFi(uint cRetries)
+
 {
     #if !ENABLE_WIFI
         return false;
@@ -215,6 +267,8 @@ bool ConnectToWiFi(uint cRetries)
 
     return true;
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
 
 // SetupOTA
 //

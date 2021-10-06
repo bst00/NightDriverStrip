@@ -302,11 +302,14 @@ void IRAM_ATTR NetworkHandlingLoopEntry(void *)
            it for any reason, we reboot the chip in cases where its required, which we assume from WAIT_FOR_WIFI */
 
         #if ENABLE_WIFI
-            EVERY_N_SECONDS(2)
+            EVERY_N_SECONDS(60)
             {
-                if (WiFi.isConnected() == false && ConnectToWiFi(10) == false)
+                //if (WiFi.isConnected() == false && ConnectToWiFi(10) == false)
+                if (WiFi.isConnected() == false)
                 {
-                    debugE("Cannot Connect to Wifi!");
+                    //debugE("Cannot Connect to Wifi!");
+                    debugE("Wifi not connected  ... call SmartConfig");
+                    //initSmartConfig();
                     #if WAIT_FOR_WIFI
                         debugE("Rebooting in 5 seconds due to no Wifi available.");
                         delay(5000);
@@ -422,6 +425,72 @@ Bounce2::Button sideButton;
 // NetworkHandlingLoopEntry     - Connects to WiFi, handles reconnects, OTA updates, web server
 // SocketServerTaskEntry        - Creates the socket and listens for incoming wifi color data
 // AudioSamplerTaskEntry        - Listens to room audio, creates spectrum analysis, beat detection, etc.
+
+void initSmartConfig()
+
+{
+    int loopCounter = 0;
+
+  //Init WiFi as Station, start SmartConfig
+  WiFi.mode(WIFI_AP_STA);
+    //Serial.printf( "Entering SmartConfig\n" );
+    debugE( "Entering SmartConfig\n" );
+
+  WiFi.beginSmartConfig();
+
+  //Wait for SmartConfig packet from mobile
+    
+    debugE("Waiting for SmartConfig.");
+    debugE("Open the ESPTouch App on your Smartphone.");
+    debugE("Enter your network password, select Multicast and hit 'Confirm'.");
+
+  while (!WiFi.smartConfigDone()) {
+    //delay(500);
+    Serial.print("+");
+         if( loopCounter >= 80 )  // keep from scrolling sideways forever
+     {
+         loopCounter = 0;
+         Serial.printf( "\n" );     // NL
+     }
+     delay(600);
+    ++loopCounter;
+  }
+  loopCounter = 0;
+
+  Serial.println("");
+  Serial.println("SmartConfig received. \n Waiting for WiFi\n\n");
+
+  //Wait for WiFi to connect to AP
+  //Serial.println("Waiting for WiFi");
+    delay(500);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("WiFi Connected.");
+
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
+     // #if INCOMING_WIFI_ENABLED
+    // Start listening for incoming data
+    debugI("Starting/restarting Socket Server...");
+    g_SocketServer.release();
+    if (false == g_SocketServer.begin())
+        throw runtime_error("Could not start socket server!");
+
+    debugI("Socket server started.");
+    //#endif
+    //#if ENABLE_WEBSERVER
+        debugI("Starting Web Server...");
+        g_WebServer.begin();
+        debugI("Web Server Started!");
+    //#endif
+
+    debugI("Received IP: %s", WiFi.localIP().toString().c_str());
+
+}
 
 void setup()
 {   
@@ -656,6 +725,7 @@ extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C g_TFT;
 
     debugI("Setup complete - ESP32 Free Memory: %d\n", ESP.getFreeHeap());
     CheckHeap();
+initSmartConfig();
 }
 
 // loop - main execution loop

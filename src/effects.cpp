@@ -267,17 +267,18 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
   #if DEMO
 
     // Animate a simple rainbow palette by using the palette effect on the built-in rainbow palette
-  
+    // added a few more effects to see what they do  ...
+    
     new PaletteEffect(rainbowPalette, 256/16, .2, 0),
 
-    new StatusEffect(CRGB::Red),
-    new StatusEffect(CRGB::Green),
-    new StatusEffect(CRGB::Blue),
+    //new StatusEffect(CRGB::Red),
+    //new StatusEffect(CRGB::Green),
+    //new StatusEffect(CRGB::Blue),
 
     new PaletteEffect(USAColors_p),
     new PaletteEffect(RGBColors_p),
     new PaletteEffect(blueSweep),
-    new PaletteEffect(BlueStripes),
+    //new PaletteEffect(BlueStripes),
 
     
     new PaletteEffect(CloudColors_p),
@@ -287,20 +288,20 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
     new PaletteEffect(PartyColors_p),
     new PaletteEffect(HeatColors_p),
 
-    new PaletteEffect(RedColors_p),
-    new PaletteEffect(BlueColors_p),
-    new PaletteEffect(GreenColors_p),
-    new PaletteEffect(MagentaColors_p),
+    //new PaletteEffect(RedColors_p),
+    //new PaletteEffect(BlueColors_p),
+    //new PaletteEffect(GreenColors_p),
+    //new PaletteEffect(MagentaColors_p),
     new PaletteEffect(PurpleColors_p),
     new PaletteEffect(spectrumBasicColors),
     new PaletteEffect(RainbowStripeColors_p, 8.0, .125, 0, 5, 1), // Rainbow palette
-    new PaletteEffect(RainbowStripeColors_p, 16.0, .25, 0, 5, 1), // Rainbow palette
+    //new PaletteEffect(RainbowStripeColors_p, 16.0, .25, 0, 5, 1), // Rainbow palette
     
-    new RainbowFillEffect(24, 0),
+    //new RainbowFillEffect(24, 0),
     new RainbowFillEffect(32, 1),             // Rainbow palette
 
     new SimpleRainbowTestEffect(8, 1),  // Rainbow palette simple test of walking pixels
-    new SimpleRainbowTestEffect(8, 4),
+    //new SimpleRainbowTestEffect(8, 4),
 
     new DoublePaletteEffect(),
     new ColorCycleEffect(BottomUp),

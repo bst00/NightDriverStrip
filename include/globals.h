@@ -700,7 +700,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 
 #ifndef DEFAULT_EFFECT_INTERVAL
 //#define DEFAULT_EFFECT_INTERVAL 1000*30
-#define DEFAULT_EFFECT_INTERVAL 1000*10
+#define DEFAULT_EFFECT_INTERVAL 1000*20
 #endif
 
 #ifndef LED_FAN_OFFSET_BU
