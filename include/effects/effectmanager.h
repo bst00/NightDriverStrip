@@ -193,6 +193,7 @@ public:
 	{
 		_effectInterval = interval;
 		//_effectStartTime = millis();
+		//debugI("New interval ",interval);
 	}
 
 	const LEDStripEffect * const * EffectsList() const

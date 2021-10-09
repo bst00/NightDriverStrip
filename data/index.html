@@ -82,12 +82,11 @@
         <div id="tabs" style="width:550px;">
             <ul>
                 <li><a href="#tabs-1">NightDriverStrip</a></li>
-                <li><a href="#tabs-2">Stuff</a></li>             <!-- placeholder -->
-                <li><a href="#tabs-3">More_Stuff</a></li>        <!-- placeholder -->
-                <li><a href="#tabs-4">Help</a></li>              <!-- placeholder -->
+                <li><a href="#tabs-2">Stuff_Tab</a></li>             <!-- placeholder -->
+                <li><a href="#tabs-3">More_Stuff_Tab</a></li>        <!-- placeholder -->
+                <li><a href="#tabs-4">Help</a></li>                  <!-- placeholder -->
             </ul>
             <div id="tabs-1" style="overflow: hidden;">
-                </div>
                 <p>Effects Selection</p>
                 <!--
                 <div style="clear: both;">
@@ -99,16 +98,23 @@
                 <ol id="effectList" class="effectList">
                 </ol>
                 <div id="Adjustments">
-                </div>
-            <div id="tabs-2" class="tab">
-                    <p>Adjust Interval betwen effect change</p>                           <!-- placeholder -->
                     <div class="input-group" id="interval-group">
                         <label for="interval">Interval</label>
                         <div class="range-min">10</div>
-                        <input type="range" id="interval" min="5" max="60" value="10" class="default-action">
+                        <!--<input type="range" id="interval" min="5" max="60" value="10" class="default-action"> -->
+                        <input type="range" id="interval" min="5" max="60" onchange="updateTextInput(this.value);">
+                        <input type="text" id="textInput" value="">
+                         <!--<output id = "new-interval"></output>-->
                         <div class="range-max">60</div>
-                    </div>
-                    <!-- -->
+                 </div>
+                 </div>
+                 </div>
+            
+            <div id="tabs-2" class="tab">
+            <p>Add Stuff to this Tab</p>
+            
+                    <p>Adjust Interval between effect change</p>                           
+                  
                 </div>
             <div id="tabs-3" class="tab">
                     <p>Test-More Stuff</p>                      <!-- placerholder -->
@@ -119,8 +125,7 @@
                 hosted at Rackspace, but on the ESP32 chip, where the WebResponses are composed and returned.
                 </p>
                 </div>
-            </div>
-        </div>
+    </div>
     </center>
 
     <script src="jquery/jquery.min.js"></script>
@@ -129,6 +134,15 @@
 
 
     <script>
+
+        // OnSliderMoved
+        //
+        // Track the Interval slider 
+
+        function updateTextInput(val)
+        {
+            document.getElementById('textInput').value=val;
+            }
 
         // OnSliderMoved
         //
@@ -308,7 +322,7 @@
 
         UpdateEffectList(null);
         RequestEffectList();
-
+        
         $("body").fadeIn(1000);
 
     </script>

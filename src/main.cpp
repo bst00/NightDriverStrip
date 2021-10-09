@@ -421,7 +421,8 @@ void PrintOutputHeader()
             FLASH_VERSION, cszSSID, ESP.getFreeHeap(), ESP.getPsramSize(), ESP.getFreePsram());
     debugI("ESP32 Clock Freq : %d MHz", ESP.getCpuFreqMHz());
 
-ESPinfo();
+    ESPinfo();
+    //debugI("ESP32 PSRAM Init: %s", psramInit() ? "OK" : "FAIL");
       debugI("-------------------------------------------------------------------------------------");
 }
 

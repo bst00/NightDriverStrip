@@ -697,6 +697,14 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #define DEFAULT_EFFECT_INTERVAL 1000*20         // 20seconds
 #endif
 
+//#ifndef SLOW_EFFECT_INTERVAL
+//#define SLOW_EFFECT_INTERVAL 1000*60         // 60seconds
+//#endif
+
+//#ifndef FAST_EFFECT_INTERVAL
+//#define FAST_EFFECT_INTERVAL 1000*5         // 5seconds
+//#endif
+
 #ifndef LED_FAN_OFFSET_BU
 #define LED_FAN_OFFSET_BU 0
 #endif
