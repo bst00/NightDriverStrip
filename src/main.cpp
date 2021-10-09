@@ -166,6 +166,7 @@
 #include <esp_system.h>
 #include <esp_wifi.h>
 #include <Preferences.h>
+#include "ESPinfo.h"
 
 #include "ntptimeclient.h"                      // setting the system clock from ntp
 #include "socketserver.h"                       // our socket server for incoming
@@ -185,6 +186,32 @@
 #if ENABLE_REMOTE
 #include "remotecontrol.h"                      // Allows us to use a IR remote with it
 #endif
+
+// 
+//
+// SmartConfig with ESPTouch Smartphone App
+// 
+// 
+
+Preferences preferences; 
+
+  const  char* rssiSSID;          // NO MORE hard coded set AP, all SmartConfig
+  const  char* password;
+  String PrefSSID, PrefPassword;  // used by preferences storage
+  String getSsid;
+  String getPass;
+  String MAC;
+  String request;                 // A String to capture the incoming HTTP GET Request
+  
+  int WFstatus;
+  int UpCount = 0;
+  int32_t rssi;                   // store WiFi signal strength here
+
+//extern uint32_t    chipId = 0;
+//extern uint32_t    ChipRev = 0;
+//extern uint32_t    ChipCores = 0;
+//extern const char* ChipModel = 0;
+
 
 void IRAM_ATTR ScreenUpdateLoopEntry(void *);          
 
@@ -393,6 +420,9 @@ void PrintOutputHeader()
     debugI("Version %u: Wifi SSID: %s - ESP32 Free Memory: %u, PSRAM:%u, PSRAM Free: %u", 
             FLASH_VERSION, cszSSID, ESP.getFreeHeap(), ESP.getPsramSize(), ESP.getFreePsram());
     debugI("ESP32 Clock Freq : %d MHz", ESP.getCpuFreqMHz());
+
+ESPinfo();
+      debugI("-------------------------------------------------------------------------------------");
 }
 
 // TerminateHandler
@@ -421,6 +451,7 @@ void TerminateHandler()
 Bounce2::Button sideButton;
 #endif
 
+/*
 // 
 //
 // SmartConfig with ESPTouch Smartphone App
@@ -440,6 +471,9 @@ Preferences preferences;
   int WFstatus;
   int UpCount = 0;
   int32_t rssi;                   // store WiFi signal strength here
+
+
+*/
   ////////////////////////////////////////////
   //       Get WiFi Status                  //
   ////////////////////////////////////////////

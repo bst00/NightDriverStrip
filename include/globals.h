@@ -147,13 +147,6 @@
 #include <inttypes.h>
 #include <Arduino.h>
 
-#if USE_TFT
-#include <U8g2lib.h>                // So we can talk to the CUU text
-#include <gfxfont.h>                // Adafruit GFX for the panels
-#include <Fonts/FreeSans9pt7b.h>    // A nice font for the VFD
-#include <Adafruit_GFX.h>           // GFX wrapper so we can draw on matrix
-#endif
-
 #include <iostream>
 #include <memory>
 #include <string>
@@ -782,6 +775,17 @@ extern DRAM_ATTR const int gRingSizeTable[];
 #define WIFI_COMMAND_REBOOT      5             // Wifi command to reboot the client chip (that's us!)
 #define WIFI_COMMAND_VU_SIZE     16
 #define WIFI_COMMAND_CLOCK_SIZE  20
+
+// Final headers
+// 
+// Headers that are only included when certain features are enabled
+
+#if USE_TFT
+#include <U8g2lib.h>                // So we can talk to the CUU text
+#include <gfxfont.h>                // Adafruit GFX for the panels
+#include <Fonts/FreeSans9pt7b.h>    // A nice font for the VFD
+#include <Adafruit_GFX.h>           // GFX wrapper so we can draw on matrix
+#endif
 
 // FPS
 // 
