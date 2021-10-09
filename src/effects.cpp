@@ -270,35 +270,11 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
     // added a few more effects to see what they do  ...
     
     new PaletteEffect(rainbowPalette, 256/16, .2, 0),
-
-    new StatusEffect(CRGB::Red),
-    //new StatusEffect(CRGB::Green),
-    //new StatusEffect(CRGB::Blue),
-
     new PaletteEffect(USAColors_p),
     new PaletteEffect(RGBColors_p),
-    new PaletteEffect(blueSweep),
-    //new PaletteEffect(BlueStripes),
-    
-    new PaletteEffect(CloudColors_p),
-    new PaletteEffect(LavaColors_p),
-    new PaletteEffect(OceanColors_p),
-    new PaletteEffect(ForestColors_p),
-    new PaletteEffect(PartyColors_p),
-    new PaletteEffect(HeatColors_p),
-
-    //new PaletteEffect(RedColors_p),
-    //new PaletteEffect(BlueColors_p),
-    //new PaletteEffect(GreenColors_p),
-    //new PaletteEffect(MagentaColors_p),
     new PaletteEffect(PurpleColors_p),
-    new PaletteEffect(spectrumBasicColors),
-    new PaletteEffect(RainbowStripeColors_p, 8.0, .125, 0, 5, 1), // Rainbow palette
-
     new RainbowFillEffect(32, 1),             // Rainbow palette
-
     new SimpleRainbowTestEffect(8, 1),  // Rainbow palette simple test of walking pixels
-
     new DoublePaletteEffect(),
     new ColorCycleEffect(BottomUp),
     new TwinkleEffect(NUM_LEDS/4, 10),
@@ -306,6 +282,26 @@ DRAM_ATTR LEDStripEffect * AllEffects[] =
     new BouncingBallEffect()
 
 
+    //new StatusEffect(CRGB::Red),
+    //new StatusEffect(CRGB::Green),
+    //new StatusEffect(CRGB::Blue),
+
+    //new PaletteEffect(spectrumBasicColors),
+    //new PaletteEffect(RainbowStripeColors_p, 8.0, .125, 0, 5, 1), // Rainbow palette
+    //new PaletteEffect(blueSweep),
+    //new PaletteEffect(BlueStripes),
+    
+    //new PaletteEffect(CloudColors_p),
+    //new PaletteEffect(LavaColors_p),
+    //new PaletteEffect(OceanColors_p),
+    //new PaletteEffect(ForestColors_p),
+    //new PaletteEffect(PartyColors_p),
+    //new PaletteEffect(HeatColors_p),
+
+    //new PaletteEffect(RedColors_p),
+    //new PaletteEffect(BlueColors_p),
+    //new PaletteEffect(GreenColors_p),
+    //new PaletteEffect(MagentaColors_p),
 
 
   #elif TREESET

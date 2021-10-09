@@ -209,7 +209,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     // Please ensure you supply sufficent power to your strip, as even the DEMO of 144 LEDs, if set
     // to white, would overload a USB port.
 
-    #define MATRIX_WIDTH            144
+    #define MATRIX_WIDTH            288
     #define MATRIX_HEIGHT           1
     #define NUM_LEDS                (MATRIX_WIDTH*MATRIX_HEIGHT)
     #define NUM_CHANNELS            1
@@ -225,7 +225,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 
     #define ENABLE_WIFI             1   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   1   // Accepting incoming color data and commands
-    #define TIME_BEFORE_LOCAL       2   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       2   // How many seconds before the lamp times out and shows local context
     #define ENABLE_NTP              1   // Set the clock from the web
     #define ENABLE_OTA              1   // Accept over the air flash updates
 
@@ -241,7 +241,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             1  // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   0   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           0   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       0   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       0   // How many seconds before the lamp times out and shows local context
     #define ENABLE_WEBSERVER        1   // Turn on the internal webserver
     #define ENABLE_NTP              0   // Set the clock from the web
     #define ENABLE_OTA              1   // Accept over the air flash updates
@@ -319,7 +319,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             0               `// Connect to WiFi
     #define INCOMING_WIFI_ENABLED   0               // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           0               // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       0               // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       0               // How many seconds before the lamp times out and shows local context
 
     #define NUM_LEDS               (MATRIX_WIDTH * MATRIX_HEIGHT)
 
@@ -365,7 +365,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             1   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   1   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           1   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       5   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       5   // How many seconds before the lamp times out and shows local context
 
     #define NUM_CHANNELS    8
     #define MATRIX_WIDTH    228                   // Number of pixels wide (how many LEDs per channel)
@@ -381,7 +381,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             1   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   1   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           0   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       1   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       1   // How many seconds before the lamp times out and shows local context
 
     #define DEFAULT_EFFECT_INTERVAL     (10*60*24)
 
@@ -409,7 +409,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             1   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   1   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           1   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       5   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       5   // How many seconds before the lamp times out and shows local context
 
     #define NUM_CHANNELS    1
     #define MATRIX_WIDTH    (8*144)   
@@ -436,7 +436,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             0   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   0   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           0   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       1   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       1   // How many seconds before the lamp times out and shows local context
 
     #define NUM_CHANNELS    1
     #define MATRIX_WIDTH    (1*144)   
@@ -456,7 +456,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             1   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   1   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           1   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       5   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       5   // How many seconds before the lamp times out and shows local context
 
     #define NUM_CHANNELS    1
     #define NUM_LEDS        600
@@ -503,7 +503,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define LED_FAN_OFFSET_BU  3                         
     #define ENABLE_REMOTE   1           // IR Remote Control
     #define ENABLE_AUDIO    1           // Listen for audio from the microphone and process it
-    #define TIME_BEFORE_LOCAL       2   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       2   // How many seconds before the lamp times out and shows local context
     #define POWER_LIMIT_MW  4000
     #define MATRIX_HEIGHT   1
     #define RESERVE_MEMORY  150000
@@ -527,7 +527,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             1   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   1   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           0   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       2   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       2   // How many seconds before the lamp times out and shows local context
 
     #define DEFAULT_EFFECT_INTERVAL     (60*60*24)
 
@@ -555,7 +555,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             0   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   0   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           0   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       1   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       1   // How many seconds before the lamp times out and shows local context
 
     #define DEFAULT_EFFECT_INTERVAL     (10*60*24)
 
@@ -588,7 +588,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
     #define ENABLE_WIFI             0   // Connect to WiFi
     #define INCOMING_WIFI_ENABLED   0   // Accepting incoming color data and commands
     #define WAIT_FOR_WIFI           0   // Hold in setup until we have WiFi - for strips without effects
-    #define TIME_BEFORE_LOCAL       0   // How many seconds before the lamp times out and shows local contexnt
+    #define TIME_BEFORE_LOCAL       0   // How many seconds before the lamp times out and shows local context
 
     #define DEFAULT_EFFECT_INTERVAL     (10*60*24)
 
@@ -614,11 +614,13 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #endif
 
 #ifndef BUILTIN_LED_PIN
-#define BUILTIN_LED_PIN 2         // Pin 25 for the built in LED on the Heltec board
+//#define BUILTIN_LED_PIN 25         // Pin 25 for the built in LED on the Heltec board
+#define BUILTIN_LED_PIN 2         // Pin 2 for the built in LED on the AZ-Delivery D1 R32 board
 #endif
 
 #define STACK_SIZE (ESP_TASK_MAIN_STACK) // Stack size for each new thread
-#define TIME_CHECK_INTERVAL_MS (1000 * 60 * 15)   // 15 min - How often in ms we resync the clock from NTP
+//#define TIME_CHECK_INTERVAL_MS (1000 * 60 * 15)   // 15 min - How often in ms we resync the clock from NTP
+#define TIME_CHECK_INTERVAL_MS (1000 * 60 * 5)   // while test code set 5 min - How often in ms we resync the clock from NTP
 #define MIN_BRIGHTNESS  4                   
 #define MAX_BRIGHTNESS  255
 #define BRIGHTNESS_STEP 10          // Amnount to step brightness on each remote control repeat 
@@ -699,7 +701,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #endif
 
 #ifndef DEFAULT_EFFECT_INTERVAL
-#define DEFAULT_EFFECT_INTERVAL 1000*20
+#define DEFAULT_EFFECT_INTERVAL 1000*20         // 20seconds
 #endif
 
 #ifndef LED_FAN_OFFSET_BU

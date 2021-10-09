@@ -137,7 +137,7 @@ void IRAM_ATTR RemoteLoopEntry(void *)
     }
 }
 #endif
-
+//////////////////////////////  Commented out below as using SmartConfig in main.cpp setup //////////////////////////////////////
 // ConnectToWiFi
 //
 // Connect to the pre-configured WiFi network.  
@@ -145,7 +145,6 @@ void IRAM_ATTR RemoteLoopEntry(void *)
 // BUGBUG I'm guessing this is exposed in all builds so anyone can call it and it just returns false if wifi
 // isn't being used, but do we need that?  If no one really needs to call it put the whole thing in the ifdef
 /*
-void initSmartConfig()
 
 {
     int loopCounter = 0;
@@ -267,7 +266,7 @@ void initSmartConfig()
 
     return true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////  Commented out above as using SmartConfig in main.cpp setup //////////////////////////////////////
 */
 
 // SetupOTA

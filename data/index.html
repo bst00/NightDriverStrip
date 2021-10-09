@@ -82,15 +82,23 @@
         <div id="tabs" style="width:550px;">
             <ul>
                 <li><a href="#tabs-1">NightDriverStrip</a></li>
-                <li><a href="#tabs-2">Stuff</a></li>             <!-- placerholder -->
-                <li><a href="#tabs-3">More_Stuff</a></li>        <!-- placerholder -->
-                <li><a href="#tabs-4">Help</a></li>              <!-- placerholder -->
+                <li><a href="#tabs-2">Stuff</a></li>             <!-- placeholder -->
+                <li><a href="#tabs-3">More_Stuff</a></li>        <!-- placeholder -->
+                <li><a href="#tabs-4">Help</a></li>              <!-- placeholder -->
             </ul>
             <div id="tabs-1" style="overflow: hidden;">
-                <!-- -->
+                </div>
+                <!--
                 <div style="clear: both;">
                     <button id="btnPrev" class="ui-button ui-width ui-corner-all">Prev</button>
                     <button id="btnNext" class="ui-button ui-width ui-corner-all">Next</button>
+                </div>
+                -->
+                <div class="input-group" id="interval-group">
+                    <label for="interval">Interval</label>
+                    <div class="range-min">10</div>
+                    <input type="range" id="interval" min="5" max="60" value="10" class="default-action">
+                    <div class="range-max">60</div>
                 </div>
                 <!-- -->
                 <ol id="effectList" class="effectList">
@@ -98,7 +106,7 @@
                 <div id="Adjustments">
                 </div>
             <div id="tabs-2" class="tab">
-                    <p>Test-Stuff</p>                           <!-- placerholder -->
+                    <p>Test-Stuff</p>                           <!-- placeholder -->
                 </div>
             <div id="tabs-3" class="tab">
                     <p>Test-More Stuff</p>                      <!-- placerholder -->
@@ -211,6 +219,7 @@
         function NextStep()
         {
             // Add here when needed
+            //
         }
 
         // UpdateEffectList

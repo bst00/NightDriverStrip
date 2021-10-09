@@ -161,7 +161,11 @@
 #include <SD.h>
 #endif
 
+#include <FS.h>
 #include <ArduinoOTA.h>                         // For updating the flash over WiFi
+#include <esp_system.h>
+#include <esp_wifi.h>
+#include <Preferences.h>
 
 #include "ntptimeclient.h"                      // setting the system clock from ntp
 #include "socketserver.h"                       // our socket server for incoming
@@ -298,25 +302,31 @@ void IRAM_ATTR NetworkHandlingLoopEntry(void *)
 
     for (;;)
     {
-        /* Every few seconds we check WiFi, and reconnect if we've lost the connection.  If we are unable to restart
-           it for any reason, we reboot the chip in cases where its required, which we assume from WAIT_FOR_WIFI */
+        // Every few seconds we check WiFi, and reconnect if we've lost the connection.  If we are unable to restart
+        //   it for any reason, we reboot the chip in cases where its required, which we assume from WAIT_FOR_WIFI 
 
         #if ENABLE_WIFI
+        //delay(2000);
+        
             EVERY_N_SECONDS(60)
             {
                 //if (WiFi.isConnected() == false && ConnectToWiFi(10) == false)  <<< ConnectToWiFi no longer used
                 if (WiFi.isConnected() == false)
                 {
-                    debugE("Wifi not connected  ... call SmartConfig");
+                    debugE("Wifi not connected  ... waiting for SmartConfig");
+                    delay(2000);
+                    /*
                     //initSmartConfig();     << maybe ???
                     #if WAIT_FOR_WIFI
                         debugE("Rebooting in 5 seconds due to no Wifi available.");
                         delay(5000);
                         DelayedReboot("Rebooting due to no Wifi available.");
                     #endif
+                    */
                 }
             }
         #endif
+        
 
 
         #if ENABLE_NTP
@@ -333,6 +343,7 @@ void IRAM_ATTR NetworkHandlingLoopEntry(void *)
         #endif            
         delay(10);
     }
+    
 }
 
 // SocketServerTaskEntry
@@ -410,6 +421,327 @@ void TerminateHandler()
 Bounce2::Button sideButton;
 #endif
 
+// 
+//
+// SmartConfig with ESPTouch Smartphone App
+// 
+// 
+
+Preferences preferences; 
+
+  const  char* rssiSSID;          // NO MORE hard coded set AP, all SmartConfig
+  const  char* password;
+  String PrefSSID, PrefPassword;  // used by preferences storage
+  String getSsid;
+  String getPass;
+  String MAC;
+  String request;                 // A String to capture the incoming HTTP GET Request
+  
+  int WFstatus;
+  int UpCount = 0;
+  int32_t rssi;                   // store WiFi signal strength here
+  ////////////////////////////////////////////
+  //       Get WiFi Status                  //
+  ////////////////////////////////////////////
+int getWifiStatus( int WiFiStatus  )
+{
+  WiFiStatus = WiFi.status();
+  Serial.printf("\tStatus %d",  WiFiStatus );
+  switch( WiFiStatus )
+  {
+    case WL_IDLE_STATUS :                         // WL_IDLE_STATUS     = 0,
+          Serial.printf(", WiFi IDLE \n");
+          break;
+    case WL_NO_SSID_AVAIL:                        // WL_NO_SSID_AVAIL   = 1,
+          Serial.printf(", NO SSID AVAIL \n");
+          break;
+    case WL_SCAN_COMPLETED:                       // WL_SCAN_COMPLETED  = 2,
+          Serial.printf(", WiFi SCAN_COMPLETED \n");
+          break;
+    case WL_CONNECTED:                            // WL_CONNECTED       = 3,
+          Serial.printf(", WiFi CONNECTED \n");
+          break;
+    case WL_CONNECT_FAILED:                       // WL_CONNECT_FAILED  = 4,
+          Serial.printf(", WiFi WL_CONNECT FAILED\n"); 
+          break;
+    case WL_CONNECTION_LOST:                      // WL_CONNECTION_LOST = 5,
+          Serial.printf(", WiFi CONNECTION LOST\n");
+          WiFi.persistent(false);                 // don't write FLASH
+          break;
+    case WL_DISCONNECTED:                         // WL_DISCONNECTED    = 6
+          Serial.printf(", WiFi DISCONNECTED ==\n");
+          WiFi.persistent(false);                 // don't write FLASH when reconnecting
+          break;
+  }
+  return WiFiStatus;
+}
+  ////////////////////////////////////////////
+  //   END getWifiStatus()                  //
+  ////////////////////////////////////////////
+
+  // Get the station interface MAC address.
+  // @return String MAC
+String getMacAddress(void)
+{
+    WiFi.mode(WIFI_AP_STA);                    // required to read NVR before WiFi.begin()
+    uint8_t baseMac[6];
+    esp_read_mac( baseMac, ESP_MAC_WIFI_STA ); // Get MAC address for WiFi station
+    char macStr[18] = { 0 };
+    sprintf(macStr, "%02X:%02X:%02X:%02X:%02X:%02X", baseMac[0], baseMac[1], baseMac[2], baseMac[3], baseMac[4], baseMac[5]);
+    return String(macStr);
+}
+// END getMacAddress()
+
+
+// Return RSSI or 0 if target SSID not found
+// const char* SSID = "YOUR_SSID";  // declare in GLOBAL space
+// call:  int32_t rssi = getRSSI( SSID );
+int32_t getRSSI( const char* target_ssid ) 
+{
+  byte available_networks = WiFi.scanNetworks();
+
+  for (int network = 0; network < available_networks; network++) 
+  {
+    if ( strcmp(  WiFi.SSID( network).c_str(), target_ssid ) == 0) 
+    {
+      return WiFi.RSSI( network );
+    }
+  }
+  return 0;
+} //  END  getRSSI()
+
+
+// Requires; #include <esp_wifi.h>
+// Returns String NONE, ssid or pass arcording to request 
+// ie String var = getSsidPass( "pass" );
+String getSsidPass( String s )
+{
+  String val = "NONE";  // return "NONE" if wrong key sent
+  s.toUpperCase();
+  if( s.compareTo("SSID") == 0 )
+  {
+     wifi_config_t conf;
+     esp_wifi_get_config( WIFI_IF_STA, &conf );
+     val = String( reinterpret_cast<const char*>(conf.sta.ssid) );
+  }
+  if( s.compareTo("PASS") == 0 )
+  {
+     wifi_config_t conf;
+     esp_wifi_get_config( WIFI_IF_STA, &conf );
+     val = String( reinterpret_cast<const char*>(conf.sta.password) );
+  }
+ return val;
+
+  ////////////////////////////////////////////
+  //   End getSsidPass()                    //
+} ////////////////////////////////////////////
+
+// match WiFi IDs in NVS to Pref store,  assumes WiFi.mode(WIFI_AP_STA);  was executed
+bool checkPrefsStore()   
+{
+    bool val = false;
+    String NVssid, NVpass, prefssid, prefpass;
+
+    NVssid = getSsidPass( "ssid" );
+    NVpass = getSsidPass( "pass" );
+
+    // Open Preferences with my-app namespace. Namespace name is limited to 15 chars
+    preferences.begin("wifi", false);
+        prefssid  =  preferences.getString("ssid", "none");     //NVS key ssid
+        prefpass  =  preferences.getString("password", "none"); //NVS key password
+    preferences.end();
+
+    if( NVssid.equals(prefssid) && NVpass.equals(prefpass) )
+      { val = true; }
+
+  return val;
+}
+// End - match WiFi IDs in NVS to Pref store,  assumes WiFi.mode(WIFI_AP_STA);  was executed
+  ////////////////////////////////////////////
+  //   Get IP info                          //
+  ////////////////////////////////////////////
+void IP_info()
+{
+   getSsid = WiFi.SSID();
+   getPass = WiFi.psk();
+   rssi = getRSSI(  rssiSSID );
+   WFstatus = getWifiStatus( WFstatus );
+   MAC = getMacAddress();
+
+      Serial.printf( "\n\n\tSSID\t%s, ", getSsid.c_str() );
+      Serial.print( rssi);  Serial.printf(" dBm\n" );  // printf??
+      Serial.printf( "\tPass:\t %s\n", getPass.c_str() ); 
+      Serial.print( "\n\n\tIP address:\t" );  Serial.print(WiFi.localIP() );
+      Serial.print( " / " );
+      Serial.println( WiFi.subnetMask() );
+      Serial.print( "\tGateway IP:\t" );  Serial.println( WiFi.gatewayIP() );
+      Serial.print( "\t DNS:\t" );     Serial.println( WiFi.dnsIP() );
+      Serial.printf( "\tMAC:\t\t%s\n", MAC.c_str() );
+}
+  ////////////////////////////////////////////
+  //   End Get IP info                      //
+  ////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+// optionally call this function any way you want in your own code to remap WiFi    //
+// to another AP using SmartConfig mode.   Button, condition etc..                  //
+//////////////////////////////////////////////////////////////////////////////////////
+void initSmartConfig()
+{
+    int loopCounter = 0;
+
+  //Init WiFi as Station, start SmartConfig
+  WiFi.mode( WIFI_AP_STA );
+    Serial.printf( "Entering SmartConfig\n" );
+
+  WiFi.beginSmartConfig();
+
+  //Wait for SmartConfig packet from mobile
+    
+    debugE("Waiting for SmartConfig.");
+    debugE("Open the ESPTouch App on your Smartphone.");
+    debugE("Enter your network password, select Multicast and hit 'Confirm'.");
+
+  while (!WiFi.smartConfigDone()) 
+  {
+    Serial.print("+");
+    if( loopCounter >= 80 )  // keep from scrolling sideways forever
+     {
+         loopCounter = 0;
+         Serial.printf( "\n" );     // NL
+     }
+     delay(600);
+    ++loopCounter;
+  }
+  loopCounter = 0;
+
+  Serial.println("");
+  Serial.println("SmartConfig received. \n Waiting for WiFi\n\n");
+    delay(3000);
+  
+  //Wait for WiFi to connect to AP
+  //Serial.println("Waiting for WiFi");
+    delay(500);
+  while ( WiFi.status() != WL_CONNECTED ) 
+  {
+    delay(500);
+    //Serial.print(".");
+    
+  }
+  IP_info();    // connected lets see IP info
+
+  preferences.begin("wifi", false);      // put it in storage
+  
+     preferences.putString( "ssid"         , getSsid);
+     preferences.putString( "password", getPass);
+  preferences.end();
+
+    delay(300);
+   Serial.println("SmartConfig received.");
+
+
+  Serial.println("WiFi Connected via initSmartConfig().");
+
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
+    // Start listening for incoming data
+    debugI("Starting/restarting Socket Server...");
+    g_SocketServer.release();
+    if (false == g_SocketServer.begin())
+        throw runtime_error("Could not start socket server!");
+
+    debugI("Socket server started.");
+
+    debugI("Starting Web Server...");
+        g_WebServer.begin();
+        debugI("Web Server Started!");
+    
+    debugI("Received IP: %s", WiFi.localIP().toString().c_str());
+
+}
+  ////////////////////////////////////////////
+  //   END SmartConfig()                    //
+  ////////////////////////////////////////////
+
+  ////////////////////////////////////////////
+  //   Init WiFi                            //
+  ////////////////////////////////////////////   
+void wifiInit()  // 
+{
+   WiFi.mode(WIFI_AP_STA);   // required to read NVR before WiFi.begin()
+
+   // load credentials from NVR, a little RTOS code here
+   wifi_config_t conf;
+   esp_wifi_get_config(WIFI_IF_STA, &conf);  // load wifi settings to struct conf
+   rssiSSID = reinterpret_cast<const char*>(conf.sta.ssid);
+   password = reinterpret_cast<const char*>(conf.sta.password);
+
+      Serial.printf( "%s\n", rssiSSID );
+      Serial.printf( "%s\n", password );
+
+   // Open Preferences with "wifi" namespace. Namespace is limited to 15 chars
+       preferences.begin("wifi", false);
+       PrefSSID      =  preferences.getString("ssid", "none");      //NVS key ssid
+       PrefPassword  =  preferences.getString("password", "none");  //NVS key password
+       preferences.end();
+
+   // keep from rewriting flash if not needed
+   if( !checkPrefsStore() )     // see is NV and Prefs are the same
+   {                            // not the same, setup with SmartConfig
+      if( PrefSSID == "none" )  // New...setup wifi
+      {
+          debugI("No match for NV and Prefs!");
+          Serial.println(PrefSSID);
+          Serial.println(PrefPassword);
+          Serial.printf( "%s\n", rssiSSID );
+          Serial.printf( "%s\n", password );
+        initSmartConfig(); 
+        delay( 3000);
+        //ESP.restart();   // reboot with wifi configured
+      }
+   } 
+
+   WiFi.begin( PrefSSID.c_str() , PrefPassword.c_str() );
+
+   int WLcount = 0;
+   while (WiFi.status() != WL_CONNECTED && WLcount < 200 ) // can take > 100 loops depending on router settings
+   {
+     delay( 100 );
+        Serial.printf("+");
+         if (UpCount >= 80)  // keep from scrolling sideways forever
+         {
+            UpCount = 0;
+                Serial.printf("\n");   // NL
+         }
+         ++UpCount;
+     ++WLcount;
+   }
+   delay( 3000 );
+
+     Serial.println("WiFi Connected via initWiFi().");
+
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
+    // Start listening for incoming data
+    debugI("Starting/restarting Socket Server...");
+    g_SocketServer.release();
+    if (false == g_SocketServer.begin())
+        throw runtime_error("Could not start socket server!");
+
+    debugI("Socket server started.");
+
+    debugI("Starting Web Server...");
+        g_WebServer.begin();
+        debugI("Web Server Started!");
+    
+    debugI("Received IP: %s", WiFi.localIP().toString().c_str());
+  }  
+  ////////////////////////////////////////////
+  //   End wifiInit()                       //
+  ////////////////////////////////////////////
+
+
 // setup
 //
 // Invoked once at boot, does initial chip setup and application initial init, then spins off worker tasks and returns
@@ -424,71 +756,6 @@ Bounce2::Button sideButton;
 // NetworkHandlingLoopEntry     - Connects to WiFi, handles reconnects, OTA updates, web server
 // SocketServerTaskEntry        - Creates the socket and listens for incoming wifi color data
 // AudioSamplerTaskEntry        - Listens to room audio, creates spectrum analysis, beat detection, etc.
-
-void initSmartConfig()
-
-{
-    int loopCounter = 0;
-
-  //Init WiFi as Station, start SmartConfig
-  WiFi.mode(WIFI_AP_STA);
-    Serial.printf( "Entering SmartConfig\n" );
-
-  WiFi.beginSmartConfig();
-
-  //Wait for SmartConfig packet from mobile
-    
-    debugE("Waiting for SmartConfig.");
-    debugE("Open the ESPTouch App on your Smartphone.");
-    debugE("Enter your network password, select Multicast and hit 'Confirm'.");
-
-  while (!WiFi.smartConfigDone()) {
-    Serial.print("+");
-         if( loopCounter >= 80 )  // keep from scrolling sideways forever
-     {
-         loopCounter = 0;
-         Serial.printf( "\n" );     // NL
-     }
-     delay(600);
-    ++loopCounter;
-  }
-  loopCounter = 0;
-
-  Serial.println("");
-  Serial.println("SmartConfig received. \n Waiting for WiFi\n\n");
-
-  //Wait for WiFi to connect to AP
-  //Serial.println("Waiting for WiFi");
-    delay(500);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-
-  Serial.println("WiFi Connected.");
-
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
-
-    // #if INCOMING_WIFI_ENABLED
-    // Start listening for incoming data
-    debugI("Starting/restarting Socket Server...");
-    g_SocketServer.release();
-    if (false == g_SocketServer.begin())
-        throw runtime_error("Could not start socket server!");
-
-    debugI("Socket server started.");
-    //#endif
-    //#if ENABLE_WEBSERVER
-        debugI("Starting Web Server...");
-        g_WebServer.begin();
-        debugI("Web Server Started!");
-    //#endif
-
-    debugI("Received IP: %s", WiFi.localIP().toString().c_str());
-
-}
-
 void setup()
 {   
     // Initialize Serial output
@@ -720,10 +987,24 @@ extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C g_TFT;
     CheckHeap();
 #endif
 
+
+//initSmartConfig();
+
+  ////////////////////////////////////////////
+  //   Call Init WiFi                       //
+  ////////////////////////////////////////////   
+  Serial.printf("\tWiFi Setup -- \n"  ); 
+
+  wifiInit();       // get WiFi connected using SmartConfig
+  IP_info();
+  MAC = getMacAddress();
+
+  delay(2000);
+
     debugI("Setup complete - ESP32 Free Memory: %d\n", ESP.getFreeHeap());
     CheckHeap();
-initSmartConfig();
-}
+    
+    }
 
 // loop - main execution loop
 //
@@ -732,6 +1013,8 @@ initSmartConfig();
 
 void loop()
 {
+      if ( WiFi.status() ==  WL_CONNECTED )      // Main connected loop
+    {
     while(true)
     {
         #if ENABLE_OTA
@@ -744,4 +1027,33 @@ void loop()
 
         delay(10);        
     }
+    }
+      else
+  {            // WiFi DOWN
+
+           WFstatus = getWifiStatus( WFstatus );
+
+     WiFi.begin( PrefSSID.c_str() , PrefPassword.c_str() );
+     int WLcount = 0;
+     while (WiFi.status() != WL_CONNECTED && WLcount < 200 )
+     {
+      delay( 100 );
+         Serial.printf("#");
+
+         if (UpCount >= 80)  // keep from scrolling sideways forever
+         {
+            UpCount = 0;
+            Serial.printf("\n");   // NL
+         }
+         ++UpCount;
+         ++WLcount;
+     }
+
+    if( getWifiStatus( WFstatus ) == 3 )   //wifi returns
+    { 
+    }
+    Serial.printf("Redo SmartConfig in 10s ...");
+     delay(10000 );
+     initSmartConfig();
+  }  // END WiFi down 
 }
