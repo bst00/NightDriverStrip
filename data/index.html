@@ -107,9 +107,8 @@
                     <label for="interval">Interval</label>
                     <div class="range-min">5</div>
                     <!--<input type="range" id="interval" min="5" max="60" value="10" class="default-action"> -->
-                    <input type="range" id="interval" min="5" max="60" onchange="updateTextInput(this.value);">
+                    <input type="range" id="interval" min="5" max="60" value="30" onchange="updateTextInput(this.value);">
                     <input type="text" id="textInput" value="">
-                     <!--<output id = "new-interval"></output>-->
                     <div class="range-max">60</div>
              </div>
              </div>
@@ -142,7 +141,7 @@
         function updateTextInput(val)
         {
             document.getElementById('textInput').value=val;
-            alert("Interval Value changed.");
+            //alert("Interval Value changed.");
             }
 
         // OnSliderMoved
