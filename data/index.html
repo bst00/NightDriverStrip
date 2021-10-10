@@ -97,22 +97,22 @@
 
                 <ol id="effectList" class="effectList">
                 </ol>
-                <div id="Adjustments">
-                    <div class="input-group" id="interval-group">
-                        <label for="interval">Interval</label>
-                        <div class="range-min">10</div>
-                        <!--<input type="range" id="interval" min="5" max="60" value="10" class="default-action"> -->
-                        <input type="range" id="interval" min="5" max="60" onchange="updateTextInput(this.value);">
-                        <input type="text" id="textInput" value="">
-                         <!--<output id = "new-interval"></output>-->
-                        <div class="range-max">60</div>
-                 </div>
-                 </div>
+
                  </div>
             
             <div id="tabs-2" class="tab">
             <p>Add Stuff to this Tab</p>
-            
+            <div id="Adjustments">
+                <div class="input-group" id="interval-group">
+                    <label for="interval">Interval</label>
+                    <div class="range-min">5</div>
+                    <!--<input type="range" id="interval" min="5" max="60" value="10" class="default-action"> -->
+                    <input type="range" id="interval" min="5" max="60" onchange="updateTextInput(this.value);">
+                    <input type="text" id="textInput" value="">
+                     <!--<output id = "new-interval"></output>-->
+                    <div class="range-max">60</div>
+             </div>
+             </div>
                     <p>Adjust Interval between effect change</p>                           
                   
                 </div>
@@ -142,6 +142,7 @@
         function updateTextInput(val)
         {
             document.getElementById('textInput').value=val;
+            alert("Interval Value changed.");
             }
 
         // OnSliderMoved

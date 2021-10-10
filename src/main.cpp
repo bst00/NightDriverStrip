@@ -318,60 +318,6 @@ void IRAM_ATTR DebugLoopTaskEntry(void *)
     }    
 }
 
-// NetworkHandlingLoopEntry
-//
-// Pumps the various network loops and sets the time periodically, as well as reconnecting
-// to WiFi if the connection drops.  Also pumps the OTA (Over the air updates) loop.
-
-void IRAM_ATTR NetworkHandlingLoopEntry(void *)
-{    
-    debugI(">> NetworkHandlingLoopEntry\n");
-
-    for (;;)
-    {
-        // Every few seconds we check WiFi, and reconnect if we've lost the connection.  If we are unable to restart
-        //   it for any reason, we reboot the chip in cases where its required, which we assume from WAIT_FOR_WIFI 
-
-        #if ENABLE_WIFI
-        //delay(2000);
-        
-            EVERY_N_SECONDS(60)
-            {
-                //if (WiFi.isConnected() == false && ConnectToWiFi(10) == false)  <<< ConnectToWiFi no longer used
-                if (WiFi.isConnected() == false)
-                {
-                    debugE("Wifi not connected  ... waiting for SmartConfig");
-                    delay(2000);
-                    /*
-                    //initSmartConfig();     << maybe ???
-                    #if WAIT_FOR_WIFI
-                        debugE("Rebooting in 5 seconds due to no Wifi available.");
-                        delay(5000);
-                        DelayedReboot("Rebooting due to no Wifi available.");
-                    #endif
-                    */
-                }
-            }
-        #endif
-        
-
-
-        #if ENABLE_NTP
-            EVERY_N_MILLIS(TIME_CHECK_INTERVAL_MS)
-            {
-                if (WiFi.isConnected())
-                {
-                    debugI("Refreshing Time from Server...");
-                    digitalWrite(BUILTIN_LED_PIN, 1);
-                    NTPTimeClient::UpdateClockFromWeb(&g_Udp);
-                    digitalWrite(BUILTIN_LED_PIN, 0);
-                }
-            }
-        #endif            
-        delay(10);
-    }
-    
-}
 
 // SocketServerTaskEntry
 //
@@ -697,7 +643,6 @@ void initSmartConfig()
   ////////////////////////////////////////////
   //   END SmartConfig()                    //
   ////////////////////////////////////////////
-
   ////////////////////////////////////////////
   //   Init WiFi                            //
   ////////////////////////////////////////////   
@@ -775,6 +720,61 @@ void wifiInit()  //
   ////////////////////////////////////////////
   //   End wifiInit()                       //
   ////////////////////////////////////////////
+// NetworkHandlingLoopEntry
+//
+// Pumps the various network loops and sets the time periodically, as well as reconnecting
+// to WiFi if the connection drops.  Also pumps the OTA (Over the air updates) loop.
+
+void IRAM_ATTR NetworkHandlingLoopEntry(void *)
+{    
+    debugI(">> NetworkHandlingLoopEntry\n");
+
+    for (;;)
+    {
+        // Every few seconds we check WiFi, and reconnect if we've lost the connection.  If we are unable to restart
+        //   it for any reason, we reboot the chip in cases where its required, which we assume from WAIT_FOR_WIFI 
+
+        #if ENABLE_WIFI
+        //delay(2000);
+        
+            EVERY_N_SECONDS(60)
+            {
+                //if (WiFi.isConnected() == false && ConnectToWiFi(10) == false)  <<< ConnectToWiFi no longer used
+                if (WiFi.isConnected() == false)
+                {
+                    debugE("Wifi lost connection  ... waiting for reconnect");
+                    delay(2000);
+                    wifiInit();
+                    //initSmartConfig();     << maybe ???
+                    #if WAIT_FOR_WIFI
+                        debugE("Rebooting in 5 seconds due to no Wifi available.");
+                        delay(5000);
+                        DelayedReboot("Rebooting due to no Wifi available.");
+                    #endif
+                    
+                }
+            }
+        #endif
+        
+
+
+        #if ENABLE_NTP
+            EVERY_N_MILLIS(TIME_CHECK_INTERVAL_MS)
+            {
+                if (WiFi.isConnected())
+                {
+                    debugI("Refreshing Time from Server...");
+                    digitalWrite(BUILTIN_LED_PIN, 1);
+                    NTPTimeClient::UpdateClockFromWeb(&g_Udp);
+                    digitalWrite(BUILTIN_LED_PIN, 0);
+                }
+            }
+        #endif            
+        delay(10);
+    }
+    
+}
+
 
 
 // setup
