@@ -616,7 +616,7 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #define TIME_CHECK_INTERVAL_MS (1000 * 60 * 5)   // while test code set 5 min - How often in ms we resync the clock from NTP
 #define MIN_BRIGHTNESS  4                   
 #define MAX_BRIGHTNESS  255
-#define BRIGHTNESS_STEP 10          // Amnount to step brightness on each remote control repeat 
+#define BRIGHTNESS_STEP 10          // Amount to step brightness on each remote control repeat 
 #define MAX_RINGS       5
 
 
@@ -697,13 +697,13 @@ extern RemoteDebug Debug;           // Let everyone in the project know about it
 #define DEFAULT_EFFECT_INTERVAL 1000*20         // 20seconds
 #endif
 
-//#ifndef SLOW_EFFECT_INTERVAL
-//#define SLOW_EFFECT_INTERVAL 1000*60         // 60seconds
-//#endif
+#ifndef SLOW_EFFECT_INTERVAL
+#define SLOW_EFFECT_INTERVAL 1000*60         // 60seconds
+#endif
 
-//#ifndef FAST_EFFECT_INTERVAL
-//#define FAST_EFFECT_INTERVAL 1000*5         // 5seconds
-//#endif
+#ifndef FAST_EFFECT_INTERVAL
+#define FAST_EFFECT_INTERVAL 1000*5         // 5seconds
+#endif
 
 #ifndef LED_FAN_OFFSET_BU
 #define LED_FAN_OFFSET_BU 0

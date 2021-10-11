@@ -32,8 +32,8 @@
 
         #effectList { border: 1px lightgrey solid; margin-bottom: 10px; margin-top: 0px; }
         #effectList .ui-selecting { background: rgb(63, 31, 207); }
-        #effectList .ui-selected { background: rgb(63, 31, 207); color: white; }
-        #effectList .ui-selected a { background: rgb(63, 31, 207); color: white; }
+        #effectList .ui-selected { background: rgb(76, 187, 32); color: white; }
+        #effectList .ui-selected a { background: rgb(163, 31, 207); color: white; }
         #effectList { list-style-type: none; padding: 0; width: 450px; }
         #effectList li { margin: 3px; padding: 0.1em; font-size: 0.8em; height: 18px; text-align: left; }
 
@@ -73,7 +73,100 @@
             width: 300px; 
             float: left;
         }
+        
+        .slidecontainer
+        {
+            width: 100%;
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 75%;
+            height: 10px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
 
+        .slider:hover {
+            opacity: .4;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 10px;
+            height: 15px;
+            background: #04AA6D;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #04AA6D;
+            cursor: pointer;
+        }
+
+        #chosen {
+            border-radius:10px;
+            width:45px;
+            padding-top:10px; padding-bottom:10px;
+            background-image: -webkit-linear-gradient(top, #cccccc, #330000);
+            background-image: -o-linear-gradient(top, #cccccc, #330000);
+            background-image: -moz-linear-gradient(top, #cccccc, #330000);
+            text-align:center;
+            color:#ffffff;
+            font-weight:bold; font-size:large;
+            margin-left:40px;
+        }
+        #newInterval {
+            border-radius:10px;
+            width:45px;
+            padding-top:10px; padding-bottom:10px;
+            background-image: -webkit-linear-gradient(top, #cccccc, #1b10b9fb);
+            background-image: -o-linear-gradient(top, #cccccc, #3c0caa);
+            background-image: -moz-linear-gradient(top, #cccccc, #1b18a8);
+            text-align:center;
+            color:#ffffff;
+            font-weight:bold; font-size:large;
+            margin-left:40px;
+        }
+        #slider {
+            margin-left:10px;
+        }
+
+        #picHolder {
+            width:250px;
+            height:240px;
+            margin:10px;
+        }
+        input[type='range'] {
+            -webkit-appearance: none;
+            width:50%;
+            padding-left:2px; padding-right:2px;
+            border-radius: 5px;
+            background-image: -webkit-linear-gradient(top, #000000, #333333, #000000);
+        }
+        output[type='range'] {
+            -webkit-appearance: none;
+            width:1cm;
+            padding-left:2px; padding-right:2px;
+            border-radius: 5px;
+            background-image: -webkit-linear-gradient(top, #000000, #333333, #000000);
+        } 
+        .slider1 {
+            -webkit-appearance: none;
+            width: 50%;
+            height: 10px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }     
     </style>
 </head>
 <body>
@@ -82,18 +175,18 @@
         <div id="tabs" style="width:550px;">
             <ul>
                 <li><a href="#tabs-1">NightDriverStrip</a></li>
-                <li><a href="#tabs-2">Stuff_Tab</a></li>             <!-- placeholder -->
-                <li><a href="#tabs-3">More_Stuff_Tab</a></li>        <!-- placeholder -->
+                <li><a href="#tabs-2">Adjust Interval</a></li>             <!-- placeholder -->
+                <li><a href="#tabs-3">Alt_Sliders</a></li>        <!-- placeholder -->
                 <li><a href="#tabs-4">Help</a></li>                  <!-- placeholder -->
             </ul>
             <div id="tabs-1" style="overflow: hidden;">
                 <p>Effects Selection</p>
-                <!--
+                
                 <div style="clear: both;">
                     <button id="btnPrev" class="ui-button ui-width ui-corner-all">Prev</button>
                     <button id="btnNext" class="ui-button ui-width ui-corner-all">Next</button>
                 </div>
-                -->
+                
 
                 <ol id="effectList" class="effectList">
                 </ol>
@@ -101,22 +194,51 @@
                  </div>
             
             <div id="tabs-2" class="tab">
-            <p>Add Stuff to this Tab</p>
+            <p>Add to this Tab</p>
             <div id="Adjustments">
                 <div class="input-group" id="interval-group">
                     <label for="interval">Interval</label>
-                    <div class="range-min">5</div>
+                    <div class="range-min">5
                     <!--<input type="range" id="interval" min="5" max="60" value="10" class="default-action"> -->
-                    <input type="range" id="interval" min="5" max="60" value="30" onchange="updateTextInput(this.value);">
-                    <input type="text" id="textInput" value="">
-                    <div class="range-max">60</div>
+                    <input type="range" id="interval" min="5" max="180" value="20" onchange="updateTextInput(this.value);">180
+                    <!--<class="range-max">180-->
+                    <br><input type="text" id="textInput" value="">
+                    </div>
+                </div>
              </div>
-             </div>
-                    <p>Adjust Interval between effect change</p>                           
+                    <p>Adjust Interval between effect change</p>  
+                    <div class="slidecontainer">
+                        <!--Default-->
+                        <p>Default range slider:</p>
+                        1<input type="range" min="1" max="100" value="50" class="slider" id="Sld1">100
+                        <p>Value: <span id="Slider1"></span></p>
+                        <br><input type="text" id="textBox" value="">
+                        <!--Custom-->
+                        <p>Custom range slider:</p>
+                        1<input type="range" min="1" max="300" value="20" onchange="updateTextBox(this.value);" class="slider" id="myRange">300 
+                        <p>Value: <span id="demo"></span></p>
+                    </div>                   
                   
                 </div>
             <div id="tabs-3" class="tab">
-                    <p>Test-More Stuff</p>                      <!-- placerholder -->
+                    <p>Range Sliders</p>                      <!-- placeholder -->
+                    <p>Slider</p> 
+                    <div id="slider">
+                        5 <input id="slide" type="range"
+                         min="5" max="180" step="5" value="60"
+                         onchange="updateSlider(this.value)" />
+                         180
+                         <div id="chosen">20</div>
+                        </div>
+                        <p>Slider1</p> 
+                    <div id="slider1">
+                        5 <input id="slide" type="range"
+                        min="5" max="300" step="5" value="100"
+                        onchange="updateSlider1(this.value)" />
+                        300
+                        <div id="newInterval">20</div>
+                        </div>
+
                 </div>
             <div id="tabs-4" style="text-align:left;">
                 <p>
@@ -134,6 +256,52 @@
 
     <script>
 
+        // My New stuff
+
+        //////////////   Slider example  ////////////////
+        function updateSlider(slideAmount) 
+        {
+            //get the element
+            var display = document.getElementById("chosen");
+            //show the amount
+            display.innerHTML=slideAmount;
+            
+        
+        
+        ////////////   End Slider example  //////////////
+        }
+        //////////////  Custom Slider1 example  ////////////////
+                function updateSlider1(slideAmount) 
+        {
+            //get the element
+            var displayInt = document.getElementById("newInterval");
+            //show the amount
+            displayInt.innerHTML=slideAmount;
+        
+        
+        ////////////   End Slider1 example  //////////////
+        }
+        
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+            output.innerHTML = slider.value;
+            
+            slider.oninput = function() 
+        {
+            output.innerHTML = this.value;
+        }
+        
+        var slider1 = document.getElementById("Sld1");
+        var output1 = document.getElementById("Slider1");
+            output1.innerHTML = slider1.value;
+    
+            slider1.oninput = function() 
+        {
+            output1.innerHTML = this.value;
+        }
+
+        // End New Stuff
+
         // OnSliderMoved
         //
         // Track the Interval slider 
@@ -141,8 +309,13 @@
         function updateTextInput(val)
         {
             document.getElementById('textInput').value=val;
-            //alert("Interval Value changed.");
-            }
+          
+        }
+        function updateTextBox(val)
+        {
+            document.getElementById('textBox').value=val;
+          
+        }
 
         // OnSliderMoved
         //
@@ -299,26 +472,28 @@
         }
 
         $("#tabs").tabs();
-        /*
+        
         $("#btnPrev").button( 
         { 
+                    
             icon: "ui-icon-circle-arrow-w" 
+            
         } );
-
+       
         $("#btnNext").button(
         {
             icon: "ui-icon-circle-arrow-e",
             iconPosition: "end"
         } );
-        */
-       
-        $( function() 
+               
+        $(( function() 
         {
             $( "button, input, a" ).click( function( event ) 
             {
                 event.preventDefault();
             } );
-        } );
+           
+        }) );
 
         UpdateEffectList(null);
         RequestEffectList();
